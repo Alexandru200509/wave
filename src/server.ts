@@ -43,25 +43,29 @@ class WaveServer {
     }
 }
 
-console.log("\x1b[34m ██╗       ██╗ █████╗ \x1b[0m██╗   ██╗\x1b[34m\x1b[34m███████╗");
-console.log("\x1b[34m ██║  ██╗  ██║██╔══██╗\x1b[0m██║   ██║\x1b[34m\x1b[34m██╔════╝");
-console.log("\x1b[34m ╚██╗████╗██╔╝███████║\x1b[0m╚██╗ ██╔╝\x1b[34m\x1b[34m█████╗  ");
-console.log("\x1b[34m  ████╔═████║ ██╔══██║\x1b[0m ╚████╔╝ \x1b[34m\x1b[34m██╔══╝  ");
-console.log("\x1b[34m  ╚██╔╝ ╚██╔╝ ██║  ██║\x1b[0m  ╚██╔╝  \x1b[34m\x1b[34m███████╗");
-console.log("\x1b[34m   ╚═╝   ╚═╝  ╚═╝  ╚═╝\x1b[0m   ╚═╝   \x1b[34m\x1b[34m╚══════╝");
-
-const systemInstance = new SystemInfo(process.version, os.type(), process.pid, os.userInfo().username);
-
-systemInstance.display();
-
 if (ConfigInstance.multithreaded) {
     if (cluster.isPrimary) {
-        const numberCores = os.cpus().length;
+        console.log("\x1b[34m ██╗       ██╗ █████╗ \x1b[0m██╗   ██╗\x1b[34m\x1b[34m███████╗");
+        console.log("\x1b[34m ██║  ██╗  ██║██╔══██╗\x1b[0m██║   ██║\x1b[34m\x1b[34m██╔════╝");
+        console.log("\x1b[34m ╚██╗████╗██╔╝███████║\x1b[0m╚██╗ ██╔╝\x1b[34m\x1b[34m█████╗  ");
+        console.log("\x1b[34m  ████╔═████║ ██╔══██║\x1b[0m ╚████╔╝ \x1b[34m\x1b[34m██╔══╝  ");
+        console.log("\x1b[34m  ╚██╔╝ ╚██╔╝ ██║  ██║\x1b[0m  ╚██╔╝  \x1b[34m\x1b[34m███████╗");
+        console.log("\x1b[34m   ╚═╝   ╚═╝  ╚═╝  ╚═╝\x1b[0m   ╚═╝   \x1b[34m\x1b[34m╚══════╝");
+
+        const systemInstance = new SystemInfo(process.version, os.type(), process.pid, os.userInfo().username);
+
+        systemInstance.display();
+
+        let serverCores = os.cpus().length;
+
+        if (ConfigInstance.cores <= serverCores) {
+            serverCores = ConfigInstance.cores;
+        }
     
-        console.log(`Number of cores: ${numberCores}`);
+        console.log(`Number of cores: ${serverCores}`);
         console.log(`Primary ${process.pid} is running`);
     
-        for (let i = 0; i < numberCores; i++) {
+        for (let i = 0; i < serverCores; i++) {
             cluster.fork();
         }
     
@@ -77,6 +81,17 @@ if (ConfigInstance.multithreaded) {
         waveServer.start(ConfigInstance.host, ConfigInstance.port);
     }
 } else {
+    console.log("\x1b[34m ██╗       ██╗ █████╗ \x1b[0m██╗   ██╗\x1b[34m\x1b[34m███████╗");
+    console.log("\x1b[34m ██║  ██╗  ██║██╔══██╗\x1b[0m██║   ██║\x1b[34m\x1b[34m██╔════╝");
+    console.log("\x1b[34m ╚██╗████╗██╔╝███████║\x1b[0m╚██╗ ██╔╝\x1b[34m\x1b[34m█████╗  ");
+    console.log("\x1b[34m  ████╔═████║ ██╔══██║\x1b[0m ╚████╔╝ \x1b[34m\x1b[34m██╔══╝  ");
+    console.log("\x1b[34m  ╚██╔╝ ╚██╔╝ ██║  ██║\x1b[0m  ╚██╔╝  \x1b[34m\x1b[34m███████╗");
+    console.log("\x1b[34m   ╚═╝   ╚═╝  ╚═╝  ╚═╝\x1b[0m   ╚═╝   \x1b[34m\x1b[34m╚══════╝");
+
+    const systemInstance = new SystemInfo(process.version, os.type(), process.pid, os.userInfo().username);
+
+    systemInstance.display();
+
     const waveServer = new WaveServer();
     waveServer.setupMiddleware();
     waveServer.setupRoutes();

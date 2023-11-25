@@ -13,6 +13,7 @@ class Config {
     public port: number = 7446;
     public logs: boolean = true;
     public multithreaded: boolean = false;
+    public cores: number = 4;
     public blacklist: string[] = [];
     public rateLimiter: RateLimiterInterface = {
         max: 100,
