@@ -9,6 +9,7 @@ interface ConfigInterface{
 
 interface RateLimiterInterface {
     max: number;
+    retries: number;
     timeout: number;
 }
 

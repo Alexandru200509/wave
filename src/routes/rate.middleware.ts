@@ -18,9 +18,9 @@ const rateLimiter = rateLimit({
 
         userBruteHistory[clientIP] = userBruteHistory[clientIP] ? userBruteHistory[clientIP] + 1 : 1;
 
-        if (userBruteHistory[clientIP] > ConfigInstance.rateLimiter.max) {
+        if (userBruteHistory[clientIP] > ConfigInstance.rateLimiter.retries) {
             console.log(`IP ${clientIP} has been banned`);
-            
+
             Blacklist.addIPAddress(clientIP);
 
             delete userBruteHistory[clientIP];

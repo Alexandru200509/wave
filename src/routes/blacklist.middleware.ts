@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { ConfigInstance } from "../controllers/config.controller";
 import Blacklist from "../controllers/blacklist.controller";
+import waveHelper from "../helpers/wave.helper";
 
 const blacklistMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const ip = req.headers["x-real-ip"] ?? req.socket.remoteAddress;
+    const ip = waveHelper.getIPAddress(req);
 
     if (Blacklist.exists(String(ip))) {
         console.log(`IP ${String(ip)} tried to access the server but it's banned`);
