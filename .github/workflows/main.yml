@@ -1,0 +1,68 @@
+name: Main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    permissions:
+        contents: read
+        security-events: write
+        actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+
+        - name: Install ESLint
+          run: |
+              npm install eslint@8.10.0
+              npm install @microsoft/eslint-formatter-sarif@2.1.7
+
+        - name: Run ESLint
+          run: npx eslint .
+              --config .eslintrc.json
+              --ext .js,.jsx,.ts,.tsx
+              --format @microsoft/eslint-formatter-sarif
+              --output-file eslint-results.sarif
+          continue-on-error: true
+
+        - name: Upload analysis results to GitHub
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+              sarif_file: eslint-results.sarif
+              wait-for-processing: true
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    needs: [eslint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
