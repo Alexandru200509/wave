@@ -12,10 +12,12 @@ class Config {
     public host: string = "127.0.0.1";
     public port: number = 7446;
     public logs: boolean = true;
+    public multithreaded: boolean = false;
     public blacklist: string[] = [];
     public rateLimiter: RateLimiterInterface = {
         max: 100,
-        timeout: 1000
+        retries: 5,
+        timeout: 15
     };
 
     // The constructor will try to read the config file and assign the properties to the instance
