@@ -91,3 +91,76 @@ To get started with the Wave, follow these steps:
     ```bash
     node --version
     ```
+
+### Clone the Repository
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/iamvladw/wave.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd wave
+    ```
+
+### Install Dependencies
+
+1. Install NPM packages:
+    ```bash
+    npm install
+    ```
+
+### Configuration
+
+1. The configuration file write's itself automatically!
+
+### Usage
+
+- Start the server as production:
+
+    ```bash
+    npm run start
+    ```
+
+- Start the server as production(JavaScript build):
+
+    ```bash
+    npm run start-js
+    ```
+
+    - **Important**: To run the JavaScript build, you must first build the server using:
+        ```bash
+        npm run build
+        ```
+
+- Start the server as dev:
+
+    ```bash
+    npm run dev
+    ```
+
+- Build and compile the server as executable:
+
+    ```bash
+    npm run build
+    ```
+
+- Test the server:
+
+    ```bash
+    npm run test
+    ```
+
+- Overwrite the coding style:
+
+    ```bash
+    npm run format
+    ```
+
+## License
+
+This project is licensed under the [CC-BY-NC-ND-4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.
+
+## Contact
+
+Project Link: [https://github.com/iamvladw/wave](https://github.com/iamvladw/wave)
