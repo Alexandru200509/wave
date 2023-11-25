@@ -7,9 +7,8 @@ const blacklistMiddleware = (req: Request, res: Response, next: NextFunction) =>
 
     if (Blacklist.exists(String(ip))) {
         console.log(`IP ${String(ip)} tried to access the server but it's banned`);
-        return res
-            .status(403)
-            .json({ error: "You are banned from this server" });
+        
+        return res.status(400).json({ error: "You are banned from this server" });
     } else {
         next();
     }

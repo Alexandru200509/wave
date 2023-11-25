@@ -54,7 +54,7 @@ const systemInstance = new SystemInfo(process.version, os.type(), process.pid, o
 
 systemInstance.display();
 
-/* if (ConfigInstance.multithreaded) {
+if (ConfigInstance.multithreaded) {
     if (cluster.isPrimary) {
         const numberCores = os.cpus().length;
     
@@ -81,4 +81,4 @@ systemInstance.display();
     waveServer.setupMiddleware();
     waveServer.setupRoutes();
     waveServer.start(ConfigInstance.host, ConfigInstance.port);
-} */
+}

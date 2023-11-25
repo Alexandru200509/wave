@@ -12,18 +12,28 @@ const rateLimiter = rateLimit({
     message: "Too many requests, please try again later.",
     statusCode: 429,
     handler: (req, res) => {
-        res.status(429).json({ error: "Too many requests, please try again later." });
+        const ip = waveHelper.getIPAddress(req as Request);
 
-        const clientIP = waveHelper.getIPAddress(req as Request);
+        try {
+            const clientIP = waveHelper.getIPAddress(req as Request);
+    
+            if (Blacklist.exists(clientIP)) {
+                return;
+            }
 
-        userBruteHistory[clientIP] = userBruteHistory[clientIP] ? userBruteHistory[clientIP] + 1 : 1;
+            res.status(429).json({ error: "Too many requests, please try again later." });
 
-        if (userBruteHistory[clientIP] > ConfigInstance.rateLimiter.retries) {
-            console.log(`IP ${clientIP} has been banned`);
-
-            Blacklist.addIPAddress(clientIP);
-
-            delete userBruteHistory[clientIP];
+            userBruteHistory[clientIP] = userBruteHistory[clientIP] ? userBruteHistory[clientIP] + 1 : 1;
+        
+            if (userBruteHistory[clientIP] > ConfigInstance.rateLimiter.retries) {
+                console.log(`IP ${clientIP} has been banned`);
+        
+                Blacklist.addIPAddress(clientIP);
+        
+                delete userBruteHistory[clientIP];
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 });
