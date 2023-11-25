@@ -1,12 +1,11 @@
 import { ConfigInstance } from "./controllers/config.controller";
-
-import express from "express";
-import cluster from "cluster";
-import os from "os";
-import helmet from "helmet";
-import statusMiddleware from "./routes/rate.middleware";
 import rateLimiter from "./routes/rate.middleware";
 
+import os from "os";
+import express from "express";
+import cluster from "cluster";
+import helmet from "helmet";
+import compression from "compression";
 
 
 class WaveServer {
@@ -20,8 +19,13 @@ class WaveServer {
         this.expressServer.use(express.json());
         this.expressServer.use(express.urlencoded({ extended: true }));
         this.expressServer.use(helmet());
+        this.expressServer.use(compression());
 
         this.expressServer.use(rateLimiter);
+    }
+
+    public setupAdditionalSettings() {
+        this.expressServer.enable("trust proxy");
     }
 
     public setupRoutes() {
