@@ -12,6 +12,7 @@ class Config {
     public host: string = "127.0.0.1";
     public port: number = 7446;
     public logs: boolean = true;
+    public blacklist: string[] = [];
     public rateLimiter: RateLimiterInterface = {
         max: 100,
         timeout: 1000

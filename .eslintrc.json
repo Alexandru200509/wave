@@ -31,7 +31,7 @@
         "linebreak-style": ["off"],
         "quotes": ["error", "double"],
         "semi": ["error", "always"],
-        "no-console": "error",
+        "no-console": "off",
         "comma-dangle": ["error", "never"],
         "arrow-parens": ["error", "always"],
         "arrow-body-style": ["error", "always"],
