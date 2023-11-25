@@ -73,7 +73,7 @@ To get started with the Wave, follow these steps:
     - **Windows**: Visit the NVM for Windows repository at [https://github.com/coreybutler/nvm-windows](https://github.com/coreybutler/nvm-windows) and follow the installation guide.
     - **Linux/macOS**: Open your terminal and run the following command:
         ```bash
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+        curl -o- https://github.com/coreybutler/nvm-windows.git | bash
         ```
 
 2. Reload the shell configuration
@@ -83,11 +83,11 @@ To get started with the Wave, follow these steps:
         source ~/.bashrc
         ```
 
-3. Install Node.js 20 by running the following command:
+3. Install Node.js 21 by running the following command:
     ```bash
-    nvm install 20
+    nvm install 21
     ```
-4. Verify that Node.js 20 is installed:
+4. Verify that Node.js 21 is installed:
     ```bash
     node --version
     ```
