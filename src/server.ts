@@ -3,6 +3,11 @@ import { ConfigInstance } from "./controllers/config.controller";
 import express from "express";
 import cluster from "cluster";
 import os from "os";
+import helmet from "helmet";
+import statusMiddleware from "./routes/rate.middleware";
+import rateLimiter from "./routes/rate.middleware";
+
+
 
 class WaveServer {
     private expressServer: express.Application;
@@ -13,6 +18,10 @@ class WaveServer {
 
     public setupMiddleware() {
         this.expressServer.use(express.json());
+        this.expressServer.use(express.urlencoded({ extended: true }));
+        this.expressServer.use(helmet());
+
+        this.expressServer.use(rateLimiter);
     }
 
     public setupRoutes() {
@@ -23,6 +32,7 @@ class WaveServer {
 
     public start(host: string, port: number) {
         this.expressServer.listen(port, host, () => {
+
             console.log(`Server started on ${host}:${port}`);
         });
     }
@@ -45,6 +55,7 @@ if (cluster.isPrimary) {
     console.log(`Worker ${process.pid} started`);
 
     const waveServer = new WaveServer();
+    waveServer.setupMiddleware();
     waveServer.setupRoutes();
     waveServer.start(ConfigInstance.host, ConfigInstance.port);
 }
