@@ -40,6 +40,15 @@ class Config {
     public getPath() {
         return this.path;
     }
+
+    // This function saves the config file
+    public save() {
+        try {
+            fs.writeFileSync(this.path, JSON.stringify(this, null, 4), "utf-8");
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
 
 // Create an instance of the Config class

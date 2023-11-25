@@ -9,33 +9,33 @@ import compression from "compression";
 
 
 class WaveServer {
-    private expressServer: express.Application;
+    private server: express.Application;
 
     constructor() {
-        this.expressServer = express();
+        this.server = express();
     }
 
     public setupMiddleware() {
-        this.expressServer.use(express.json());
-        this.expressServer.use(express.urlencoded({ extended: true }));
-        this.expressServer.use(helmet());
-        this.expressServer.use(compression());
+        this.server.use(express.json());
+        this.server.use(express.urlencoded({ extended: true }));
+        this.server.use(helmet());
+        this.server.use(compression());
 
-        this.expressServer.use(rateLimiter);
+        this.server.use(rateLimiter);
     }
 
     public setupAdditionalSettings() {
-        this.expressServer.enable("trust proxy");
+        this.server.enable("trust proxy");
     }
 
     public setupRoutes() {
-        this.expressServer.get("/", (req, res) => {
+        this.server.get("/", (req, res) => {
             res.send("Hello World!");
         });
     }
 
     public start(host: string, port: number) {
-        this.expressServer.listen(port, host, () => {
+        this.server.listen(port, host, () => {
 
             console.log(`Server started on ${host}:${port}`);
         });
