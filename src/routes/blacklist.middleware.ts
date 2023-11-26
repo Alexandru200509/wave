@@ -6,9 +6,7 @@ const blacklistMiddleware = (req: Request, res: Response, next: NextFunction) =>
     const ip = waveHelper.getIPAddress(req);
 
     if (Blacklist.exists(String(ip))) {
-        console.log(`IP ${String(ip)} tried to access the server but it's banned`);
-        
-        return res.status(400).json({ error: "You are banned from this server" });
+        console.log(`IP ${String(ip)} tried to access the server but it's banned`);        
     } else {
         next();
     }

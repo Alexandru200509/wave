@@ -15,6 +15,30 @@ class SystemInfo {
     }
 
     public display() {
+        console.log("\x1b[34m ██╗       ██╗ █████╗ \x1b[0m██╗   ██╗\x1b[34m\x1b[34m███████╗");
+        console.log("\x1b[34m ██║  ██╗  ██║██╔══██╗\x1b[0m██║   ██║\x1b[34m\x1b[34m██╔════╝");
+        console.log("\x1b[34m ╚██╗████╗██╔╝███████║\x1b[0m╚██╗ ██╔╝\x1b[34m\x1b[34m█████╗  ");
+        console.log("\x1b[34m  ████╔═████║ ██╔══██║\x1b[0m ╚████╔╝ \x1b[34m\x1b[34m██╔══╝  ");
+        console.log("\x1b[34m  ╚██╔╝ ╚██╔╝ ██║  ██║\x1b[0m  ╚██╔╝  \x1b[34m\x1b[34m███████╗");
+        console.log("\x1b[34m   ╚═╝   ╚═╝  ╚═╝  ╚═╝\x1b[0m   ╚═╝   \x1b[34m\x1b[34m╚══════╝");
+
+        switch (this.OS) {
+            case "win32":
+                this.OS = "Windows";
+                break;
+            case "linux":
+                this.OS = "Linux";
+                break;
+            case "darwin":
+                this.OS = "MacOS";
+                break;
+            default:
+                this.OS = "Unknown";
+                break;
+        }
+
+        const OSName = "\x1b[34m" + this.OS.slice(0, 1) + "\x1b[0m" + this.OS.slice(1);
+
         const NVFirstLetter = this.NodeVersion.slice(0, 1);
         const NVrestOfWord = this.NodeVersion.slice(1);
         const OSfirstLetter = this.OS.slice(0, 1);
@@ -23,7 +47,8 @@ class SystemInfo {
         const PIDrestOfWord = this.PID.toString().slice(1);
         const UserfirstLetter = this.User.slice(0, 1);
         const UserrestOfWord = this.User.slice(1);
-        console.log("\x1b[34m" + NVFirstLetter + "\x1b[0m" + NVrestOfWord + "| "+"\x1b[34m" + OSfirstLetter + "\x1b[0m" + OSrestOfWord + " |");
+
+        console.log("\x1b[34m" + NVFirstLetter + "\x1b[0m" + NVrestOfWord + " | " + OSName + " |");
     }
 }
 
