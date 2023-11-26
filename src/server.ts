@@ -3,10 +3,10 @@ import helmet from "helmet";
 import express from "express";
 import cluster from "cluster";
 import compression from "compression";
-import rateLimiter from "./routes/rate.middleware";
+import rateLimiter from "./middlewares/rate.middleware";
 import { SystemInfo } from "./helpers/system.helper";
 import { ConfigInstance } from "./controllers/config.controller";
-import blacklistMiddleware from "./routes/blacklist.middleware";
+import blacklistMiddleware from "./middlewares/blacklist.middleware";
 
 class WaveServer {
     private server: express.Application;
@@ -45,7 +45,7 @@ class WaveServer {
 
 if (ConfigInstance.multithreaded) {
     if (cluster.isPrimary) {
-        const systemInstance = new SystemInfo(process.version, os.type(), process.pid, os.userInfo().username);
+        const systemInstance = new SystemInfo(process.version, os.type(), String(process.pid), os.userInfo().username);
 
         systemInstance.display();
 
@@ -74,7 +74,7 @@ if (ConfigInstance.multithreaded) {
         waveServer.start(ConfigInstance.host, ConfigInstance.port);
     }
 } else {
-    const systemInstance = new SystemInfo(process.version, process.platform, process.pid, os.userInfo().username);
+    const systemInstance = new SystemInfo(process.version, process.platform, String(process.pid), os.userInfo().username);
 
     systemInstance.display();
 
