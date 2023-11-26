@@ -12,10 +12,10 @@ const rateLimiter = rateLimit({
     message: "Too many requests, please try again later.",
     statusCode: 429,
     handler: (req, res) => {
-        const ip = waveHelper.getIPAddress(req as Request);
+        const ip = waveHelper.getIPAddress(req);
 
         try {
-            const clientIP = waveHelper.getIPAddress(req as Request);
+            const clientIP = waveHelper.getIPAddress(req);
     
             if (Blacklist.exists(clientIP)) {
                 return;
