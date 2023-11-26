@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/iamvladw/wave">
-    <img src="./assets/wave.png" alt="Logo" width="30%" height="10%">
+    <img src="./assets/wave.png" alt="Logo" width="80%" height="10%">
   </a>
 
   <h3 align="center">Wave</h3>

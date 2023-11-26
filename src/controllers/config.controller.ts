@@ -1,7 +1,7 @@
 // src/controllers/config.controller.ts
 import fs from "fs";
 
-import { RateLimiterInterface } from "../interfaces/config.interface";
+import { RateLimiterInterface, MaxMindInterface } from "../interfaces/config.interface";
 
 class Config {
     // The path to the config file
@@ -19,6 +19,10 @@ class Config {
         max: 100,
         retries: 5,
         timeout: 15
+    };
+    public maxMind: MaxMindInterface = {
+        accountID: "",
+        licenseKey: ""
     };
 
     // The constructor will try to read the config file and assign the properties to the instance

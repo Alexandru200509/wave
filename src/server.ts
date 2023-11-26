@@ -7,6 +7,9 @@ import rateLimiter from "./middlewares/rate.middleware";
 import { SystemInfo } from "./helpers/system.helper";
 import { ConfigInstance } from "./controllers/config.controller";
 import blacklistMiddleware from "./middlewares/blacklist.middleware";
+import ipRouter from "./routes/v1/ip.route";
+import { WebServiceClient } from "@maxmind/geoip2-node";
+import Logger from "./helpers/logger.helper";
 
 class WaveServer {
     private server: express.Application;
@@ -30,9 +33,7 @@ class WaveServer {
     }
 
     public setupRoutes() {
-        this.server.get("/", (req, res) => {
-            res.status(200).json({ message: "Hello World"});
-        });
+        this.server.use("/api/", ipRouter);
     }
 
     public start(host: string, port: number) {
@@ -83,3 +84,5 @@ if (ConfigInstance.multithreaded) {
     waveServer.setupRoutes();
     waveServer.start(ConfigInstance.host, ConfigInstance.port);
 }
+
+export default WaveServer;

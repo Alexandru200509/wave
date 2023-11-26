@@ -13,7 +13,13 @@ interface RateLimiterInterface {
     timeout: number;
 }
 
+interface MaxMindInterface {
+    accountID: string;
+    licenseKey: string;
+}
+
 export {
     ConfigInterface,
-    RateLimiterInterface
+    RateLimiterInterface,
+    MaxMindInterface
 };
