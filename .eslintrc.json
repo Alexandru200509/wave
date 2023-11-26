@@ -27,14 +27,37 @@
         "main.js"
     ],
     "rules": {
-        "indent": ["error", 4],
-        "linebreak-style": ["off"],
-        "quotes": ["error", "double"],
-        "semi": ["error", "always"],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "linebreak-style": [
+            "off"
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
         "no-console": "off",
-        "comma-dangle": ["error", "never"],
-        "arrow-parens": ["error", "always"],
-        "arrow-body-style": ["error", "always"],
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "arrow-parens": [
+            "error",
+            "always"
+        ],
+        "arrow-body-style": [
+            "error",
+            "always"
+        ],
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
