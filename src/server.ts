@@ -28,8 +28,6 @@ class WaveServer {
     }
 
     public setupMiddleware() {
-        Logger.log("green", "Loader", "Loading api \x1b[1;32mmiddlewares\x1b[0m...");
-
         this.server.use(express.json());
         this.server.use(express.urlencoded({ extended: true }));
         this.server.use(helmet());
@@ -40,14 +38,10 @@ class WaveServer {
     }
 
     public setupAdditionalSettings() {
-        Logger.log("green", "Loader", "Loading api \x1b[1;32madditional settings\x1b[0m...");
-
-        this.server.enable("trust proxy");
+        this.server.disable("trust proxy");
     }
 
     public setupRoutes() {
-        Logger.log("green", "Loader", "Loading api \x1b[1;32mroutes\x1b[0m...");
-
         this.server.use("/api/", ipRouter);
         this.server.use("/api/", geoLocationRouter);
         this.server.use("/api/", countryRouter);
@@ -70,16 +64,17 @@ if (ConfigInstance.multithreaded) {
 
         systemInstance.display();
 
+        Logger.log("green", "Loader", "Loading api \x1b[1;32mmiddlewares\x1b[0m...");
+
+        Logger.log("green", "Loader", "Loading api \x1b[1;32mroutes\x1b[0m...");
+
+        Logger.log("green", "Loader", "Loading api \x1b[1;32madditional settings\x1b[0m...");
+
         let serverCores = os.cpus().length;
 
         if (ConfigInstance.cores <= serverCores) {
             serverCores = ConfigInstance.cores;
         }
-
-        Logger.log("blue", "Wave", `Running as \x1b[1;34m${SystemInfo.getCPUMode()}\x1b[0m...`);
-    
-        console.log(`Number of cores: ${serverCores}`);
-        console.log(`Primary ${process.pid} is running`);
     
         for (let i = 0; i < serverCores; i++) {
             cluster.fork();
@@ -89,13 +84,23 @@ if (ConfigInstance.multithreaded) {
             console.log(`Worker ${worker.process.pid} died`);
         });
 
-        Logger.log("blue", "Wave", `Wave is now running on \x1b[1;34m${ConfigInstance.host}:${ConfigInstance.port}\x1b[0m`);
+        void MaxMind.validateCredentials().then((valid) => {
+            if (!valid) {
+                Logger.log("magenta", "Validator", "Invalid credentials provided, please check your config file and try again");
+                process.exit(1);
+            }
+        
+            Logger.log("blue", "Wave", `Running as \x1b[1;34m${SystemInfo.getCPUMode()}\x1b[0m with \x1b[1;34m${serverCores} cores\x1b[0m...`);
+        
+            Logger.log("blue", "Wave", `Wave is now running on \x1b[1;34m${ConfigInstance.host}:${ConfigInstance.port}\x1b[0m`);
+        });
     } else {
-        console.log(`Worker ${process.pid} started`);
+        Logger.log("cyan", "Workers", `Worker ${process.pid} started`);
     
         const waveServer = new WaveServer();
         waveServer.setupMiddleware();
         waveServer.setupRoutes();
+        waveServer.setupAdditionalSettings();
         waveServer.start(ConfigInstance.host, ConfigInstance.port);
     }
 } else {
@@ -103,9 +108,16 @@ if (ConfigInstance.multithreaded) {
 
     systemInstance.display();
 
+    Logger.log("green", "Loader", "Loading api \x1b[1;32mmiddlewares\x1b[0m...");
+
+    Logger.log("green", "Loader", "Loading api \x1b[1;32mroutes\x1b[0m...");
+
+    Logger.log("green", "Loader", "Loading api \x1b[1;32madditional settings\x1b[0m...");
+
     const waveServer = new WaveServer();
     waveServer.setupMiddleware();
     waveServer.setupRoutes();
+    waveServer.setupAdditionalSettings();
 
     void MaxMind.validateCredentials().then((valid) => {
         if (!valid) {
