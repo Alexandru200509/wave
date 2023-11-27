@@ -2,6 +2,7 @@
 import fs from "fs";
 
 import { RateLimiterInterface, MaxMindInterface } from "../interfaces/config.interface";
+import Logger from "../helpers/logger.helper";
 
 class Config {
     // The path to the config file
@@ -52,6 +53,8 @@ class Config {
     // This function saves the config file
     public save() {
         try {
+            Logger.log("green", "Config", `Saving config file to ${this.path}`);
+
             fs.writeFileSync(this.path, JSON.stringify(this, null, 4), "utf-8");
         } catch (e) {
             console.log(e);

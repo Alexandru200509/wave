@@ -1,4 +1,7 @@
 import os from "os";
+import Logger from "./logger.helper";
+import { ConfigInstance } from "../controllers/config.controller";
+import MaxMind from "../controllers/maxmind.controller";
 
 class SystemInfo {
     private NodeVersion: string;
@@ -44,6 +47,14 @@ class SystemInfo {
 
 
         console.log("  " + NodeVersion + " \x1b[34m|\x1b[0m " + OSName + " \x1b[34m|\x1b[0m " + PID + " \x1b[34m|\x1b[0m " + User);
+
+        Logger.log("blue", "Wave", `Working directory: \x1b[1;34m${process.cwd()}\x1b[0m`);
+
+        Logger.log("green", "Loader", `Loading \x1b[1;32m${ConfigInstance.getPath()}\x1b[0m file...`);
+    }
+
+    static getCPUMode(): string {
+        return ConfigInstance.multithreaded ? "multi-threaded" : "single-threaded";
     }
 }
 

@@ -3,6 +3,7 @@ import { ConfigInstance } from "../controllers/config.controller";
 import waveHelper from "../helpers/wave.helper";
 import { Request } from "express";
 import Blacklist from "../controllers/blacklist.controller";
+import Logger from "../helpers/logger.helper";
 
 const userBruteHistory: Record<string, number> = {};
 
@@ -21,12 +22,13 @@ const rateLimiter = rateLimit({
                 return;
             }
 
+            Logger.log("red", "Rate Limiter", `IP ${clientIP} has been rate limited`);
             res.status(429).json({ error: "Too many requests, please try again later." });
 
             userBruteHistory[clientIP] = userBruteHistory[clientIP] ? userBruteHistory[clientIP] + 1 : 1;
         
             if (userBruteHistory[clientIP] > ConfigInstance.rateLimiter.retries) {
-                console.log(`IP ${clientIP} has been banned`);
+                Logger.log("red", "Rate Limiter", `IP ${clientIP} has been banned`);
         
                 Blacklist.addIPAddress(clientIP);
         
