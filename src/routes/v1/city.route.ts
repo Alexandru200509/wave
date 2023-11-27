@@ -5,7 +5,7 @@ import MaxMind from "../../controllers/maxmind.controller";
 
 const router: express.Router = express.Router();
 
-router.get("/v1/ip/country/:ip", async (req: Request, res: Response) => {
+router.get("/v1/ip/city/:ip", async (req: Request, res: Response) => {
     const ip = req.params.ip;
 
     try {
@@ -30,14 +30,14 @@ router.get("/v1/ip/country/:ip", async (req: Request, res: Response) => {
         }
 
         res.status(200).json({
-            country: {
-                name: response.country?.names.en,
-                code: response.country?.isoCode,
-                geonameid: response.country?.geonameId
+            city: {
+                name: response.city?.names.en,
+                code: response.subdivisions?.[0].isoCode,
+                geonameid: response.city?.geonameId
             }
         });
     } catch (e) {
-        Logger.log("red", "Error", `Error while fetching country of ${ip}: ${String(e)}`);
+        Logger.log("red", "Error", `Error while fetching city of ${ip}: ${String(e)}`);
 
         res.status(500).json({ message: "Internal Server Error" });
     }
