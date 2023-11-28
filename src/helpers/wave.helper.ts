@@ -77,6 +77,37 @@ class waveHelper {
             });
         });
     }
+    
+    static statusCodeFormatter(statusCode: number): string {
+        if (statusCode >= 200 && statusCode < 300) {
+            return `\x1b[48;5;2m${statusCode} \x1b[0m`; // Green Background
+        } else if (statusCode >= 300 && statusCode < 400) {
+            return `\x1b[48;5;3m${statusCode} \x1b[0m`; // Yellow Background
+        } else if (statusCode >= 400 && statusCode < 500) {
+            return `\x1b[48;5;1m${statusCode} \x1b[0m`; // Red Background
+        } else if (statusCode >= 500) {
+            return `\x1b[48;5;1m${statusCode} \x1b[0m`; // Red Background
+        } else {
+            return "\x1b[48;5;1mUNKNOWN \x1b[0m"; // Red Background for unknown status codes
+        }
+    }
+
+    static requestMethodFormatter(method: string): string {
+        switch (method) {
+            case "GET":
+                return `\x1b[48;5;4m${method} \x1b[0m`; // Blue Background
+            case "POST":
+                return `\x1b[48;5;2m${method} \x1b[0m`; // Green Background
+            case "PUT":
+                return `\x1b[48;5;208m${method} \x1b[0m`; // Orange Background
+            case "PATCH":
+                return `\x1b[48;5;3m${method} \x1b[0m`; // Yellow Background
+            case "DELETE":
+                return `\x1b[48;5;1m${method} \x1b[0m`; // Red Background
+            default:
+                return `\x1b[48;5;1m${method} \x1b[0m`; // Red Background for unknown methods
+        }
+    }
 }
 
 export default waveHelper;

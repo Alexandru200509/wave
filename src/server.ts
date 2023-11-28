@@ -15,10 +15,9 @@ import ispRouter from "./routes/v1/isp.route";
 import rangeRouter from "./routes/v1/range.route";
 import cityRouter from "./routes/v1/city.route";
 
-import { WebServiceClient } from "@maxmind/geoip2-node";
 import Logger from "./helpers/logger.helper";
-import waveHelper from "./helpers/wave.helper";
 import MaxMind from "./controllers/maxmind.controller";
+import loggerMiddleware from "./middlewares/logger.middleware";
 
 class WaveServer {
     private server: express.Application;
@@ -35,6 +34,7 @@ class WaveServer {
 
         this.server.use(rateLimiter);
         this.server.use(blacklistMiddleware);
+        this.server.use(loggerMiddleware);
     }
 
     public setupAdditionalSettings() {
