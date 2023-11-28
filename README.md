@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/actions/workflow/status/iamvladw/wave/jest.yml?label=Tests&style=popout&branch=dmain" alt="CI">
+  <img src="https://img.shields.io/github/actions/workflow/status/iamvladw/wave/main.yml?label=Tests&style=popout&branch=dmain" alt="CI">
   <img src="https://img.shields.io/github/package-json/v/iamvladw/wave?label=Version&style=popout" alt="Version">
   <img src="https://img.shields.io/github/last-commit/iamvladw/wave?label=Last%20Commit&style=popout" alt="Last Commit">
   <img src="https://img.shields.io/github/downloads/iamvladw/wave/total?label=Downloads&style=popout" alt="Downloads">
