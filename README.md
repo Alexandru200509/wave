@@ -57,9 +57,7 @@ Wave is an efficient, scalable, and open-source backend solution designed for re
 - Express.js
 - Helmet.js
 - Node.js
-- Winston
 - Nodemon
-- Axios
 - MaxMind
 
 ## Getting Started
@@ -156,6 +154,9 @@ To get started with the Wave, follow these steps:
     ```bash
     npm run format
     ```
+## API Reference
+
+For detailed information about the API endpoints and request/response examples, please refer to the [API Reference documentation](https://github.com/iamvladw/wave/wiki/API-Reference).
 
 ## License
 
