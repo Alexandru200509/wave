@@ -28,7 +28,9 @@ const rateLimiter = rateLimit({
             res.status(429).json({ error: "Too many requests, please try again later." }); // Send the error message
 
             // Add the IP address to the blacklist
-            userBruteHistory[clientIP] = userBruteHistory[clientIP] ? userBruteHistory[clientIP]++ : 1;
+            userBruteHistory[clientIP] = userBruteHistory[clientIP] ? userBruteHistory[clientIP] + 1 : 1;
+
+            console.log(userBruteHistory[clientIP]);
         
             // Check if the IP address has exceeded the maximum number of retries
             if (userBruteHistory[clientIP] > ConfigInstance.rateLimiter.retries) {
