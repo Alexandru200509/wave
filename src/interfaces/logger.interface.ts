@@ -1,3 +1,4 @@
+// scr/interfaces/logger.interface.ts
 interface LoggerInterface{
 }
 

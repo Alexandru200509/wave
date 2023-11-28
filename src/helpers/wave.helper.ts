@@ -1,19 +1,22 @@
+// src/helpers/wave.helper.ts
 import { Request } from "express";
 import { exec } from "child_process";
-import { ConfigInstance } from "../controllers/config.controller";
-import { WebServiceClient } from "@maxmind/geoip2-node";
 
 class waveHelper {
-    static getIPAddress(req: Request) {
+
+    // Get the IP address of the client
+    static getIPAddress(req: Request): string {
         return String(req.headers["x-real-ip"] ?? req.socket.remoteAddress);
     }
 
+    // Check if the IP address is a valid IPv4 address
     static isValidIPv4(ip: string): boolean {
-        const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+        const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/; // Regex for IPv4 addresses
 
-        return ipv4Regex.test(ip);
+        return ipv4Regex.test(ip); // Return true if the IP address matches the regex
     }
 
+    // Check if the IP address is a public IPv4 address
     static isPublicIPv4Address(ip: string): boolean {
         // Define private IPv4 address ranges
         const privateIPv4Ranges = [
@@ -27,23 +30,29 @@ class waveHelper {
         return !privateIPv4Ranges.some((regex) => {return regex.test(ip);});
     }
 
+    // Calculate the IP range of an IP address
     static calculateIPRange(ip: string, subnet: string): { start: string; end: string } {
+        // Split the IP address and subnet into parts
         const ipParts = ip.split(".");
         const subnetParts = subnet.split("/");
         const subnetMask = Number(subnetParts[1]);
 
+        // Calculate the IP address in decimal
         const ipDecimal =
             (parseInt(ipParts[0]) << 24) +
             (parseInt(ipParts[1]) << 16) +
             (parseInt(ipParts[2]) << 8) +
             parseInt(ipParts[3]);
 
+        // Calculate the subnet mask in decimal
         const subnetMaskDecimal = 0xffffffff << (32 - subnetMask);
         const networkAddress = ipDecimal & subnetMaskDecimal;
 
+        // Calculate the start and end IP addresses in decimal
         const startIPDecimal = networkAddress + 1;
         const endIPDecimal = networkAddress + Math.pow(2, 32 - subnetMask) - 2;
 
+        // Convert the start and end IP addresses to dotted decimal notation
         const startIP =
             (startIPDecimal >>> 24) +
             "." +
@@ -65,12 +74,16 @@ class waveHelper {
         return { start: startIP, end: endIP };
     }
 
+    // Get the hostname of an IP address
     static getHostname(ip: string): Promise<string | undefined> {
         return new Promise((resolve, reject) => {
+            // Execute the nslookup command
             exec(`nslookup ${ip}`, (error, stdout, stderr) => {
+                // Check if the command failed
                 if (error) {
                     reject(`Error: ${error.message}`);
                 } else {
+                    // Get the hostname from the output
                     const match = stdout.match(/Name:\s+(.+)/);
                     resolve(match ? match[1].trim() : undefined);
                 }
@@ -78,6 +91,7 @@ class waveHelper {
         });
     }
     
+    // Format the status code
     static statusCodeFormatter(statusCode: number): string {
         if (statusCode >= 200 && statusCode < 300) {
             return `\x1b[48;5;2m${statusCode} \x1b[0m`; // Green Background
@@ -92,6 +106,7 @@ class waveHelper {
         }
     }
 
+    // Format the request method
     static requestMethodFormatter(method: string): string {
         switch (method) {
             case "GET":

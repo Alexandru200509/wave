@@ -1,8 +1,8 @@
 // src/controllers/config.controller.ts
 import fs from "fs";
 
-import { RateLimiterInterface, MaxMindInterface } from "../interfaces/config.interface";
 import Logger from "../helpers/logger.helper";
+import { RateLimiterInterface, MaxMindInterface } from "../interfaces/config.interface";
 
 class Config {
     // The path to the config file
@@ -28,7 +28,6 @@ class Config {
 
     // The constructor will try to read the config file and assign the properties to the instance
     constructor(path: string) {
-        // Try to read the config file
         try {
             // Read the config file
             const configData = fs.readFileSync(path, "utf-8");
@@ -39,25 +38,26 @@ class Config {
 
             // Assign the properties from parsedConfig to the instance
             Object.assign(this, parsedConfig);
-        } catch (e) {
+        } catch (e) {            
             // File doesn't exist, create it with default data
             fs.writeFileSync(path, JSON.stringify(this, null, 4), "utf-8");
         }
     }
 
-    // This function displays the config file path
-    public getPath() {
+    // Retrieve the path of the config file
+    public getPath(): string {
         return this.path;
     }
 
     // This function saves the config file
-    public save() {
+    public save(): void {
+        // Try to save the config file
         try {
-            Logger.log("green", "Config", `Saving config file to ${this.path}`);
+            Logger.log("green", "Config", `Saving config file to ${this.path}...`); // Log the action
 
-            fs.writeFileSync(this.path, JSON.stringify(this, null, 4), "utf-8");
+            fs.writeFileSync(this.path, JSON.stringify(this, null, 4), "utf-8"); // Write the config file
         } catch (e) {
-            console.log(e);
+            Logger.log("red", "Config", `Failed to save config file to ${this.path}!`); // Log the error
         }
     }
 }

@@ -1,7 +1,10 @@
+// src/helpers/logger.helper.ts
 import { LoggerColors } from "../interfaces/logger.interface";
 
 class Logger {
-    public static colorCode(color: LoggerColors) {
+
+    // Returns the color code for the logger
+    public static colorCode(color: LoggerColors): number {
         switch (color) {
             case "red":
                 return 31;
@@ -22,11 +25,13 @@ class Logger {
         }
     }
 
-    public static log(color: LoggerColors, title: string, message: string) {
-        const dateObject = new Date();
-        const timeStamp = dateObject.getTime();
-        const formattedTime = dateObject.toISOString().slice(0, 19).replace("T", " ");
+    // Logs a message to the console
+    public static log(color: LoggerColors, title: string, message: string): void {
+        const dateObject = new Date(); // Create a new date object
+        const timeStamp = dateObject.getTime(); // Get the timestamp of the date object
+        const formattedTime = dateObject.toISOString().slice(0, 19).replace("T", " "); // Format the date object to a string
 
+        // Log the message to the console
         console.log("[%s] \x1b[1;%sm[%s]\x1b[0m", formattedTime, this.colorCode(color), title, message);
     }
 }
