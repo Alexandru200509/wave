@@ -1,7 +1,7 @@
 {
   "name": "wave",
   "family": "VoltzzNode",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Wave is an efficient, scalable, and open-source backend solution designed for retrieving geographical locations of public IP addresses. It leverages the power of MaxMind's GeoLite2 database and is crafted in TypeScript. This project serves as a free microservice for VoltzzNode Enterprise.",
   "main": "server.js",
   "scripts": {
