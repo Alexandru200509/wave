@@ -8,7 +8,7 @@
     "start": "ts-node src/server.ts",
     "start-js": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "build": "tsc && pkg dist/server.js --targets node16-win-x64,node16-linux-x64,node16-macos-x64 --output build/wave --options max_old_space_size=4096",
+    "build": "tsc && pkg dist/server.js --targets node16-win-x64,node16-linux-x64,node16-macos-x64 --output build/wave",
     "test": "jest --detectOpenHandles --coverage --passWithNoTests",
     "format": "prettier --write . && eslint --fix ."
   },
