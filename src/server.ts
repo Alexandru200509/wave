@@ -94,7 +94,6 @@ if (ConfigInstance.multithreaded) {
             console.log(`Worker ${worker.process.pid} died`);
         });
 
-        // Check if the server is running in debug mode
         void MaxMind.validateCredentials().then((valid) => {
 
             // Check if the MaxMind credentials are valid

@@ -2,6 +2,9 @@
 import { Request } from "express";
 import { exec } from "child_process";
 
+import Logger from "./logger.helper";
+import { ConfigInstance } from "../controllers/config.controller";
+
 class waveHelper {
 
     // Get the IP address of the client
@@ -121,6 +124,14 @@ class waveHelper {
                 return `\x1b[48;5;1m${method} \x1b[0m`; // Red Background
             default:
                 return `\x1b[48;5;1m${method} \x1b[0m`; // Red Background for unknown methods
+        }
+    }
+
+    // Display additional debug errors
+    static displayDebugError(error: string): void {
+        // Check if the debug mode is enabled
+        if (ConfigInstance.debug) {
+            Logger.log("yellow", "Debug", error); // Log the error
         }
     }
 }

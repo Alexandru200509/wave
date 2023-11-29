@@ -2,6 +2,7 @@
 import { WebServiceClient } from "@maxmind/geoip2-node";
 
 import Logger from "../helpers/logger.helper";
+import waveHelper from "../helpers/wave.helper";
 import { ConfigInstance } from "./config.controller";
 
 class MaxMind {
@@ -25,7 +26,9 @@ class MaxMind {
             
             return true;
         } catch (e) {
-            return false;
+            waveHelper.displayDebugError(e as string); // Display the error in the console   
+            
+            return false; 
         }
     }
 }

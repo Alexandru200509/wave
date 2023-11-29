@@ -2,6 +2,7 @@
 import fs from "fs";
 
 import Logger from "../helpers/logger.helper";
+import waveHelper from "../helpers/wave.helper";
 import { RateLimiterInterface, MaxMindInterface } from "../interfaces/config.interface";
 
 class Config {
@@ -41,6 +42,7 @@ class Config {
         } catch (e) {            
             // File doesn't exist, create it with default data
             fs.writeFileSync(path, JSON.stringify(this, null, 4), "utf-8");
+            waveHelper.displayDebugError(e as string); // Display the error in the console   
         }
     }
 
@@ -58,6 +60,7 @@ class Config {
             fs.writeFileSync(this.path, JSON.stringify(this, null, 4), "utf-8"); // Write the config file
         } catch (e) {
             Logger.log("red", "Config", `Failed to save config file to ${this.path}!`); // Log the error
+            waveHelper.displayDebugError(e as string); // Display the error in the console   
         }
     }
 }
